@@ -181,8 +181,8 @@ def generateStr(length):
 # generateStr
 
 def sendMail(recipient, subj, bodyHtml):
-    sender_email = "is21d005@mandakh.edu.mn"
-    sender_password = "05060109"
+    sender_email = "sw19d001@mandakh.edu.mn"
+    sender_password = "01300718"
     recipient_email = recipient
     subject = subj
     body = bodyHtml
