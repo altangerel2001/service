@@ -158,12 +158,12 @@ resultMessages = {
 # db connection
 def connectDB():
     con = ps.connect (
-        host = 'localhost',
-        # host = '59.153.86.251',
-        dbname = 't_user',
-        user = 'postgres',
-        password = '123',
-        port = '5432',
+        # host = 'localhost',
+        host = '59.153.86.254',
+        dbname = 'qrmba',
+        user = 'usermba',
+        password = 'software',
+        port = '5938',
     )
     return con
 # connectDB
