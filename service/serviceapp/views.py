@@ -70,10 +70,6 @@ def dt_login(request):
     action = jsons['action']
     email = jsons['email']
     passw = jsons['passw']
-    for item in jsons['prods']:
-        item['prodname']
-
-
     myCon = connectDB()
     cursor = myCon.cursor()
     

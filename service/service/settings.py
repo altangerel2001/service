@@ -159,7 +159,7 @@ resultMessages = {
 def connectDB():
     con = ps.connect (
         # host = 'localhost',
-        host = '59.153.86.254',
+        host = '192.168.0.15',
         dbname = 'qrmba',
         user = 'usermba',
         password = 'software',

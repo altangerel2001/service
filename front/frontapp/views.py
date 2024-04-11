@@ -13,7 +13,7 @@ def dt_login(request):
         requestJSON["email"] = username
         requestJSON["passw"] = passw
 
-        r = requests.post('http://localhost:8001/users/',
+        r = requests.post('http://127.0.0.1:8001/users/',
                             data=json.dumps(requestJSON),
                             headers={'Content-Type': 'application/json'},
                             )
@@ -26,7 +26,6 @@ def dt_login(request):
         # ctx = r.json()
         ctx['resultCode'] = resultCode
         ctx['resultMessage'] = resultMessage
-
         if resultCode == 1002:
             ctx['email'] = r.json()["data"][0]["email"]
             ctx['firstname'] = r.json()["data"][0]["firstname"]
