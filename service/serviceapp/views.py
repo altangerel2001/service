@@ -3,7 +3,13 @@ from datetime import datetime
 from django.http import JsonResponse, HttpResponse
 import json
 from service.settings import *
+from django.utils.crypto import get_random_string
 from django.views.decorators.csrf import csrf_exempt
+from django.core.mail import send_mail
+
+
+
+
 
 
 def gettime(request):
@@ -187,3 +193,40 @@ def checkToken(request):
         resp = sendResponse(request, 3004, data, "not verified")
     return JsonResponse(json.loads(resp))
 #checkToken
+
+@csrf_exempt
+def forgot_password(request):
+    if request.method == 'POST':
+        jsons = json.loads(request.body)
+        email = jsons.get('email')
+        if email:
+            # Check if the email exists in the database
+            myCon = connectDB()
+            cursor = myCon.cursor()
+            query = f"SELECT COUNT(*) AS usercount FROM t_user WHERE email = '{email}'"
+            cursor.execute(query)
+            user_count = cursor.fetchone()[0]
+            cursor.close()
+            
+            if user_count == 1:
+                # Generate a unique token
+                token = generateStr(30)
+                # Update the user's token in the database
+                cursor = myCon.cursor()
+                query = f"UPDATE t_user SET token = '{token}' WHERE email = '{email}'"
+                cursor.execute(query)
+                myCon.commit()
+                cursor.close()
+                myCon.close()
+
+                # Send an email to the user with the password reset link
+                reset_link = f'http://your-website.com/reset-password?token={token}'
+                sendMail(email, "Password Reset Request", f"Click the link to reset your password: {reset_link}")
+                
+                return JsonResponse({'success': 'Password reset link sent to your email.'})
+            else:
+                return JsonResponse({'error': 'User with this email does not exist.'})
+        else:
+            return JsonResponse({'error': 'Email not provided.'})
+    else:
+        return JsonResponse({'error': 'Invalid request method.'})
